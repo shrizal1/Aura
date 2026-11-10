@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AURA | Modern Premium E-Commerce</title>
+
+  <!-- Google Analytics 4 (GA4) -->
+  <!-- NOTE: Replace 'G-XXXXXXXXXX' with your Google Analytics Measurement ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    // Initialize with your Measurement ID
+    window.GA_MEASUREMENT_ID = 'G-XXXXXXXXXX';
+    gtag('config', window.GA_MEASUREMENT_ID, {
+      send_page_view: true
+    });
+  </script>
+  
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="light-theme">
+  <!-- Announcement Banner -->
+  <aside class="announcement-bar" aria-label="Store announcement">
+    <div class="announcement-content">
+      <span class="badge-sparkle"><i class="fa-solid fa-sparkles"></i> NEW SEASON DROP</span>
+      <span>Enjoy <strong>Free Express Shipping</strong> on all orders over $75 • Use code <span class="promo-pill">AURA10</span> for 10% off</span>
+    </div>
+  </aside>
+
+  <!-- Main Navigation Header -->
+  <header class="site-header" id="header">
+    <div class="header-container">
+      <!-- Mobile Menu Toggle -->
+      <button class="icon-btn mobile-menu-toggle" id="mobileMenuBtn" aria-label="Open mobile menu">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <!-- Brand Logo -->
+      <a href="#" class="brand-logo" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">
+        <span class="brand-symbol">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 6V18M6 12H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="brand-name">AURA<span class="brand-dot">.</span></span>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="main-nav" id="mainNav">
+        <button class="nav-link active" data-category="all">All Products</button>
+        <button class="nav-link" data-category="audio">Audio & Tech</button>
+        <button class="nav-link" data-category="wearables">Wearables</button>
+        <button class="nav-link" data-category="footwear">Footwear & Fashion</button>
+        <button class="nav-link" data-category="workspace">Workspace</button>
+        <button class="nav-link" data-category="lifestyle">Lifestyle</button>
+      </nav>
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <!-- Live Search Box -->
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="searchInput" placeholder="Search products, specs..." autocomplete="off">
+          <button class="clear-search-btn" id="clearSearchBtn" aria-label="Clear search" style="display: none;">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Theme Toggle Button -->
+        <button class="icon-btn" id="themeToggleBtn" title="Toggle Theme" aria-label="Toggle dark and light theme">
+          <i class="fa-regular fa-moon" id="themeIcon"></i>
+        </button>
+
+        <!-- Wishlist Button with Badge -->
+        <button class="icon-btn" id="wishlistToggleBtn" title="Saved Wishlist" aria-label="View saved wishlist">
+          <i class="fa-regular fa-heart"></i>
+          <span class="badge-count" id="wishlistCount">0</span>
+        </button>
+
+        <!-- Cart Button with Counter and Live Subtotal -->
+        <button class="cart-btn" id="cartToggleBtn" aria-label="View shopping cart">
+          <div class="cart-icon-wrapper">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="badge-count" id="cartBadgeCount">0</span>
+          </div>
+          <span class="cart-label-price" id="cartHeaderTotal">$0.00</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Navigation -->
+  <div class="mobile-nav-overlay" id="mobileOverlay"></div>
+  <div class="mobile-nav-panel" id="mobileNavPanel">
+    <div class="mobile-nav-header">
+      <span class="brand-name">AURA<span class="brand-dot">.</span></span>
+      <button class="icon-btn" id="closeMobileNavBtn" aria-label="Close navigation">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="mobile-search-wrapper">
+      <input type="text" id="mobileSearchInput" placeholder="Search gear, gadgets...">
+    </div>
+    <div class="mobile-nav-links">
+      <button class="mobile-nav-link active" data-category="all"><i class="fa-solid fa-grid-2"></i> All Products</button>
+      <button class="mobile-nav-link" data-category="audio"><i class="fa-solid fa-headphones"></i> Audio & Tech</button>
+      <button class="mobile-nav-link" data-category="wearables"><i class="fa-solid fa-stopwatch"></i> Wearables</button>
+      <button class="mobile-nav-link" data-category="footwear"><i class="fa-solid fa-shoe-prints"></i> Footwear & Apparel</button>
+      <button class="mobile-nav-link" data-category="workspace"><i class="fa-solid fa-laptop-code"></i> Workspace</button>
+      <button class="mobile-nav-link" data-category="lifestyle"><i class="fa-solid fa-compass"></i> Lifestyle & Carry</button>
+    </div>
+  </div>
+
+  <!-- Main Hero Banner Section -->
+  <section class="hero-section">
+    <div class="hero-container">
+      <div class="hero-text-content">
+        <div class="hero-eyebrow">
+          <span class="pulse-dot"></span>
+          <span>CURATED EDIT 2026</span>
+        </div>
+        <h1 class="hero-title">Precision Gear for <span class="gradient-text">Modern Living</span></h1>
+        <p class="hero-subtitle">
+          Experience uncompromising acoustic engineering, aerospace craftsmanship, and minimalist daily essentials crafted to elevate your craft.
+        </p>
+        <div class="hero-cta-group">
+          <a href="#catalogSection" class="btn btn-primary">
+            Explore Collection <i class="fa-solid fa-arrow-right"></i>
+          </a>
+          <button class="btn btn-secondary" onclick="openProductModalById(1)">
+            <i class="fa-solid fa-circle-play"></i> Spotlight: Aura ANC
+          </button>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">4.9/5</span>
+            <span class="stat-label">Average Customer Score</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">48k+</span>
+            <span class="stat-label">Orders Delivered Safely</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">2-Year</span>
+            <span class="stat-label">Warranty Included</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Featured Spotlight Card -->
+      <div class="hero-spotlight">
+        <div class="spotlight-card" onclick="openProductModalById(1)">
+          <div class="spotlight-tag">Product Spotlight</div>
+          <div class="spotlight-image-wrap">
+            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80" alt="Aura Studio Wireless ANC Headphones" id="heroSpotlightImg">
+            <div class="spotlight-overlay">
+              <span class="quick-inspect-pill"><i class="fa-solid fa-expand"></i> Inspect Item</span>
+            </div>
+          </div>
+          <div class="spotlight-info">
+            <div class="spotlight-title-row">
+              <h3>Aura Studio Wireless ANC</h3>
+              <span class="spotlight-price">$249.99</span>
+            </div>
+            <p>Beryllium drivers • 45h Playtime • Hybrid Active Noise Cancellation</p>
+            <div class="spotlight-badges">
+              <span class="mini-badge"><i class="fa-solid fa-star"></i> 4.9 (384 reviews)</span>
+              <span class="mini-badge best"><i class="fa-solid fa-fire"></i> Best Seller</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Value Props Banner -->
+  <section class="trust-bar">
+    <div class="trust-container">
+      <div class="trust-card">
+        <div class="trust-icon"><i class="fa-solid fa-truck-fast"></i></div>
+        <div class="trust-info">
+          <h4>Free Worldwide Delivery</h4>
+          <p>On all qualifying orders over $75</p>
+        </div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <div class="trust-info">
+          <h4>30-Day Risk-Free Trial</h4>
+          <p>100% money back guarantee</p>
+        </div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon"><i class="fa-solid fa-rotate-left"></i></div>
+        <div class="trust-info">
+          <h4>2-Year Official Warranty</h4>
+          <p>Full manufacturer parts protection</p>
+        </div>
+      </div>
+      <div class="trust-card">
+        <div class="trust-icon"><i class="fa-solid fa-lock"></i></div>
+        <div class="trust-info">
+          <h4>Ultra-Secure Checkout</h4>
+          <p>256-Bit SSL encrypted payments</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Catalog Section -->
+  <main class="catalog-section" id="catalogSection">
+    <div class="catalog-container">
+      
+      <!-- Catalog Controls & Header -->
+      <div class="catalog-header">
+        <div class="catalog-title-wrap">
+          <h2 class="section-title">Selected Products</h2>
+          <p class="section-subtitle">Click on any product card to inspect full imagery, variants, and specifications.</p>
+        </div>
+        
+        <!-- Sorting and Filter Toggles -->
+        <div class="catalog-toolbar">
+          <div class="sort-selector-wrap">
+            <label for="sortSelect" class="toolbar-label">Sort by:</label>
+            <div class="select-styled">
+              <select id="sortSelect">
+                <option value="featured">Featured First</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Top Rated</option>
+                <option value="name">Alphabetical</option>
+              </select>
+              <i class="fa-solid fa-chevron-down select-arrow"></i>
+            </div>
+          </div>
+
+          <button class="filter-toggle-btn" id="filterToggleBtn" aria-label="Toggle Filters">
+            <i class="fa-solid fa-sliders"></i> Filters
+            <span class="filter-indicator" id="filterIndicator" style="display:none;"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills Bar -->
+      <div class="category-pills-bar">
+        <button class="cat-pill active" data-category="all">
+          <span>All Items</span>
+          <span class="pill-count" id="count-all">12</span>
+        </button>
+        <button class="cat-pill" data-category="audio">
+          <i class="fa-solid fa-headphones"></i>
+          <span>Audio & Tech</span>
+          <span class="pill-count" id="count-audio">3</span>
+        </button>
+        <button class="cat-pill" data-category="wearables">
+          <i class="fa-solid fa-stopwatch"></i>
+          <span>Wearables</span>
+          <span class="pill-count" id="count-wearables">1</span>
+        </button>
+        <button class="cat-pill" data-category="footwear">
+          <i class="fa-solid fa-shoe-prints"></i>
+          <span>Footwear & Fashion</span>
+          <span class="pill-count" id="count-footwear">3</span>
+        </button>
+        <button class="cat-pill" data-category="workspace">
+          <i class="fa-solid fa-keyboard"></i>
+          <span>Workspace</span>
+          <span class="pill-count" id="count-workspace">2</span>
+        </button>
+        <button class="cat-pill" data-category="lifestyle">
+          <i class="fa-solid fa-compass"></i>
+          <span>Lifestyle & Gear</span>
+          <span class="pill-count" id="count-lifestyle">3</span>
+        </button>
+      </div>
+
+      <!-- Expandable Secondary Filter Drawer / Panel -->
+      <div class="filter-drawer" id="filterDrawer" style="display: none;">
+        <div class="filter-row">
+          <div class="filter-group">
+            <label class="filter-heading">Max Price: <span id="priceDisplay">$450</span></label>
+            <input type="range" id="priceRange" min="30" max="450" step="10" value="450" class="range-slider">
+          </div>
+          <div class="filter-group">
+            <label class="filter-heading">Availability</label>
+            <label class="checkbox-label">
+              <input type="checkbox" id="inStockCheckbox"> In Stock Only
+            </label>
+          </div>
+          <div class="filter-group reset-filter-group">
+            <button class="btn btn-outline-sm" id="resetFiltersBtn">Reset All Filters</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Filter Status Row -->
+      <div class="filter-status-row" id="filterStatusRow">
+        <span class="items-found-text" id="itemsFoundText">Showing 12 items</span>
+        <div class="active-tag-chips" id="activeTagChips"></div>
+      </div>
+
+      <!-- Dynamic Product Grid -->
+      <div class="product-grid" id="productGrid">
+        <!-- Rendered via JavaScript -->
+      </div>
+
+      <!-- No Results Empty State -->
+      <div class="no-results" id="noResults" style="display: none;">
+        <div class="no-results-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+        <h3>No matching products found</h3>
+        <p>Try loosening your search terms or resetting the price filters.</p>
+        <button class="btn btn-primary" onclick="resetAllFilters()">Reset All Filters</button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- SELECTED ITEM MODAL (Detailed Product View with Images & Specs) -->
+  <div class="modal-backdrop" id="productDetailModal" aria-hidden="true">
+    <div class="modal-dialog product-modal-dialog">
+      <button class="modal-close-btn" id="closeProductModalBtn" aria-label="Close product view">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="product-detail-layout" id="modalProductContent">
+        <!-- Dynamic Content Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- SHOPPING CART DRAWER (Selected Items List & Checkout Trigger) -->
+  <div class="cart-backdrop" id="cartBackdrop"></div>
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping Cart">
+    <div class="cart-drawer-header">
+      <div class="cart-drawer-title-wrap">
+        <h3>Selected Items (<span id="cartTotalItemsCount">0</span>)</h3>
+        <span class="cart-drawer-subtitle">Review your selection</span>
+      </div>
+      <button class="icon-btn" id="closeCartBtn" aria-label="Close cart">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Free Shipping Progress Tracker -->
+    <div class="shipping-progress-banner" id="shippingProgressBanner">
+      <div class="shipping-progress-text" id="shippingProgressText">
+        Add <strong>$75.00</strong> more to unlock <strong>Free Express Shipping</strong>!
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="shippingProgressBar" style="width: 0%;"></div>
+      </div>
+    </div>
+
+    <!-- Cart Items Scrollable Container -->
+    <div class="cart-items-list" id="cartItemsList">
+      <!-- Injected via JavaScript -->
+    </div>
+
+    <!-- Cart Drawer Footer & Totals -->
+    <div class="cart-drawer-footer" id="cartFooter">
+      <!-- Promo Code Section -->
+      <div class="promo-code-box">
+        <div class="promo-input-wrapper">
+          <i class="fa-solid fa-tag promo-icon"></i>
+          <input type="text" id="promoInput" placeholder="Promo code (e.g. AURA10)" autocomplete="off">
+          <button class="promo-apply-btn" id="applyPromoBtn">Apply</button>
+        </div>
+        <div class="promo-feedback" id="promoFeedback" style="display: none;"></div>
+      </div>
+
+      <!-- Pricing Summary Breakdown -->
+      <div class="cart-breakdown">
+        <div class="breakdown-row">
+          <span>Subtotal</span>
+          <span id="cartSubtotal">$0.00</span>
+        </div>
+        <div class="breakdown-row discount-row" id="discountRow" style="display: none;">
+          <span>Discount (<span id="discountCodeName"></span>)</span>
+          <span id="cartDiscount" class="text-discount">-$0.00</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Estimated Shipping</span>
+          <span id="cartShipping">FREE</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Estimated Tax (8%)</span>
+          <span id="cartTax">$0.00</span>
+        </div>
+        <div class="breakdown-divider"></div>
+        <div class="breakdown-row total-row">
+          <span>Total</span>
+          <span id="cartGrandTotal">$0.00</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="cart-actions">
+        <button class="btn btn-primary btn-block checkout-btn" id="openCheckoutBtn">
+          <span>Proceed to Checkout</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+        <button class="btn btn-ghost btn-block" id="clearCartBtn">Clear All Items</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- SAVED WISHLIST DRAWER -->
+  <div class="wishlist-backdrop" id="wishlistBackdrop"></div>
+  <aside class="wishlist-drawer" id="wishlistDrawer" aria-label="Saved Wishlist">
+    <div class="cart-drawer-header">
+      <div class="cart-drawer-title-wrap">
+        <h3>Saved Wishlist (<span id="wishlistTotalCount">0</span>)</h3>
+        <span class="cart-drawer-subtitle">Your bookmarked gear</span>
+      </div>
+      <button class="icon-btn" id="closeWishlistBtn" aria-label="Close wishlist">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+    <div class="wishlist-items-list" id="wishlistItemsList">
+      <!-- Injected via JS -->
+    </div>
+  </aside>
+
+  <!-- CHECKOUT MODAL -->
+  <div class="modal-backdrop" id="checkoutModal" aria-hidden="true">
+    <div class="modal-dialog checkout-modal-dialog">
+      <button class="modal-close-btn" id="closeCheckoutModalBtn" aria-label="Close checkout">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+
+      <div class="checkout-container" id="checkoutFormContainer">
+        <!-- Left: Form -->
+        <div class="checkout-form-column">
+          <div class="checkout-brand">
+            <span class="brand-name">AURA<span class="brand-dot">.</span> Checkout</span>
+          </div>
+
+          <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+            <!-- Shipping Information -->
+            <div class="checkout-section">
+              <h4 class="checkout-section-title"><i class="fa-solid fa-truck"></i> 1. Shipping Information</h4>
+              <div class="form-grid">
+                <div class="form-group span-6">
+                  <label for="firstName">First Name</label>
+                  <input type="text" id="firstName" required placeholder="Alexander">
+                </div>
+                <div class="form-group span-6">
+                  <label for="lastName">Last Name</label>
+                  <input type="text" id="lastName" required placeholder="Wright">
+                </div>
+                <div class="form-group span-12">
+                  <label for="email">Email Address (for order tracking)</label>
+                  <input type="email" id="email" required placeholder="alexander@example.com">
+                </div>
+                <div class="form-group span-12">
+                  <label for="address">Street Address</label>
+                  <input type="text" id="address" required placeholder="742 Evergreen Terrace, Suite 104">
+                </div>
+                <div class="form-group span-6">
+                  <label for="city">City</label>
+                  <input type="text" id="city" required placeholder="San Francisco">
+                </div>
+                <div class="form-group span-3">
+                  <label for="state">State</label>
+                  <input type="text" id="state" required placeholder="CA">
+                </div>
+                <div class="form-group span-3">
+                  <label for="zipCode">ZIP Code</label>
+                  <input type="text" id="zipCode" required placeholder="94107">
+                </div>
+              </div>
+            </div>
+
+            <!-- Payment Simulation -->
+            <div class="checkout-section">
+              <h4 class="checkout-section-title"><i class="fa-solid fa-credit-card"></i> 2. Payment Method</h4>
+              <div class="payment-method-options">
+                <label class="payment-option selected">
+                  <input type="radio" name="paymentMethod" value="card" checked>
+                  <span class="payment-option-inner">
+                    <i class="fa-solid fa-credit-card"></i>
+                    <span>Credit / Debit Card</span>
+                  </span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="applepay">
+                  <span class="payment-option-inner">
+                    <i class="fa-brands fa-apple"></i>
+                    <span>Apple Pay</span>
+                  </span>
+                </label>
+                <label class="payment-option">
+                  <input type="radio" name="paymentMethod" value="paypal">
+                  <span class="payment-option-inner">
+                    <i class="fa-brands fa-paypal"></i>
+                    <span>PayPal</span>
+                  </span>
+                </label>
+              </div>
+
+              <div class="card-fields-box" id="cardFields">
+                <div class="form-group">
+                  <label for="cardNumber">Card Number</label>
+                  <div class="card-input-wrap">
+                    <input type="text" id="cardNumber" placeholder="4532 •••• •••• 8892" maxlength="19" required>
+                    <i class="fa-brands fa-cc-visa card-icon-right"></i>
+                  </div>
+                </div>
+                <div class="form-grid">
+                  <div class="form-group span-6">
+                    <label for="cardExpiry">Expiration Date</label>
+                    <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" required>
+                  </div>
+                  <div class="form-group span-6">
+                    <label for="cardCvc">Security CVC</label>
+                    <input type="text" id="cardCvc" placeholder="CVC" maxlength="4" required>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block place-order-btn" id="placeOrderBtn">
+              <i class="fa-solid fa-lock"></i> Authorize & Place Order (<span id="checkoutPayAmount">$0.00</span>)
+            </button>
+            <p class="secure-badge-note">
+              <i class="fa-solid fa-shield-check"></i> Encrypted 256-Bit SSL checkout. No actual charges will be made.
+            </p>
+          </form>
+        </div>
+
+        <!-- Right: Checkout Order Summary -->
+        <div class="checkout-summary-column">
+          <h4 class="summary-title">Order Summary (<span id="checkoutSummaryItemsCount">0</span> items)</h4>
+          <div class="checkout-items-preview" id="checkoutItemsPreview">
+            <!-- Selected items listed here -->
+          </div>
+          <div class="checkout-pricing-box">
+            <div class="breakdown-row">
+              <span>Subtotal</span>
+              <span id="checkoutSubtotal">$0.00</span>
+            </div>
+            <div class="breakdown-row text-discount" id="checkoutDiscountRow" style="display: none;">
+              <span>Promo Savings</span>
+              <span id="checkoutDiscount">-$0.00</span>
+            </div>
+            <div class="breakdown-row">
+              <span>Shipping</span>
+              <span id="checkoutShipping">FREE</span>
+            </div>
+            <div class="breakdown-row">
+              <span>Tax (8%)</span>
+              <span id="checkoutTax">$0.00</span>
+            </div>
+            <div class="breakdown-divider"></div>
+            <div class="breakdown-row total-row">
+              <span>Order Total</span>
+              <span id="checkoutGrandTotal">$0.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Order Confirmation Celebration Screen -->
+      <div class="order-success-screen" id="orderSuccessScreen" style="display: none;">
+        <div class="success-icon-wrap">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+        <h2>Thank You for Your Order!</h2>
+        <p class="order-success-msg">
+          We've received your purchase and our fulfillment team is preparing your package. A confirmation email has been dispatched with tracking credentials.
+        </p>
+
+        <div class="order-receipt-card">
+          <div class="receipt-row">
+            <span>Order Reference</span>
+            <strong id="receiptOrderNumber">#AUR-839420</strong>
+          </div>
+          <div class="receipt-row">
+            <span>Estimated Delivery</span>
+            <strong id="receiptDeliveryDate">Thursday, 3 Business Days</strong>
+          </div>
+          <div class="receipt-row">
+            <span>Payment Status</span>
+            <span class="status-badge paid"><i class="fa-solid fa-check"></i> Approved</span>
+          </div>
+          <div class="receipt-row">
+            <span>Amount Paid</span>
+            <strong id="receiptTotalAmount">$0.00</strong>
+          </div>
+        </div>
+
+        <div class="success-ordered-items" id="successOrderedItems">
+          <!-- Summary of items purchased -->
+        </div>
+
+        <button class="btn btn-primary" onclick="closeOrderSuccessModal()">
+          Continue Shopping <i class="fa-solid fa-bag-shopping"></i>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Footer Section -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-top">
+        <div class="footer-brand-col">
+          <div class="brand-logo">
+            <span class="brand-name">AURA<span class="brand-dot">.</span></span>
+          </div>
+          <p class="footer-desc">
+            Redefining consumer goods with purposeful industrial design, tactile materials, and precision acoustics.
+          </p>
+          <div class="social-links">
+            <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-nav-col">
+          <h5>Categories</h5>
+          <ul>
+            <li><a href="#" onclick="selectCategory('audio'); return false;">Audio & Tech</a></li>
+            <li><a href="#" onclick="selectCategory('wearables'); return false;">Wearables & Smartwatches</a></li>
+            <li><a href="#" onclick="selectCategory('footwear'); return false;">Footwear & Apparel</a></li>
+            <li><a href="#" onclick="selectCategory('workspace'); return false;">Workspace Essentials</a></li>
+            <li><a href="#" onclick="selectCategory('lifestyle'); return false;">Lifestyle & Daily Carry</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-nav-col">
+          <h5>Customer Care</h5>
+          <ul>
+            <li><a href="#orderTracking" onclick="showToast('Order tracking feature ready via confirmation email', 'info'); return false;">Order Tracking</a></li>
+            <li><a href="#shipping" onclick="showToast('Free worldwide express shipping on orders over $75', 'info'); return false;">Shipping Policy</a></li>
+            <li><a href="#returns" onclick="showToast('Hassle-free 30-day money-back guarantee', 'info'); return false;">30-Day Returns</a></li>
+            <li><a href="#warranty" onclick="showToast('2-year warranty included on all hardware', 'info'); return false;">Warranty & Repair</a></li>
+            <li><a href="#faq" onclick="showToast('24/7 support available via live chat', 'info'); return false;">Help Center</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-newsletter-col">
+          <h5>Stay in the Loop</h5>
+          <p>Get exclusive early access to limited edition product drops and design articles.</p>
+          <form class="newsletter-form" onsubmit="handleNewsletter(event)">
+            <input type="email" id="newsletterEmail" placeholder="Enter your email" required>
+            <button type="submit" class="btn btn-primary">Join</button>
+          </form>
+          <span class="newsletter-note"><i class="fa-solid fa-lock"></i> No spam ever. Unsubscribe with 1-click anytime.</span>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 AURA Inc. All rights reserved. Designed for discerning makers & creators.</p>
+        <div class="payment-badges">
+          <i class="fa-brands fa-cc-visa"></i>
+          <i class="fa-brands fa-cc-mastercard"></i>
+          <i class="fa-brands fa-cc-amex"></i>
+          <i class="fa-brands fa-apple-pay"></i>
+          <i class="fa-brands fa-paypal"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/products.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
